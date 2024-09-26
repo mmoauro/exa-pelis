@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Exa Pelis</string>
+    <string name="navigate_red">Ir a actividad roja</string>
+    <string name="checkbox">Haz click</string>
+    <string name="navigate_main">Ir a actividad principal</string>
+
+    <string name="popular_movies">Peliculas populares</string>
+
+</resources>

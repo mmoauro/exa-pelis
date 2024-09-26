@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Exa Pelis</string>
+    <string name="navigate_red">Go to red activity</string>
+    <string name="checkbox">Check me</string>
+    <string name="navigate_main">Go to main screen</string>
+
+
+
+    <string name="popular_movies">Popular movies</string>
+</resources>
