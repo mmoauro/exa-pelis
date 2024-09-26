@@ -2,11 +2,11 @@ package com.exa.pelis.ui.home
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.exa.pelis.databinding.HomeActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -28,6 +28,7 @@ class HomeActivity: AppCompatActivity() {
 
         handleMoviesChange()
         handleLoadingChange()
+        handleError()
     }
 
     private fun handleLoadingChange() {
@@ -39,6 +40,15 @@ class HomeActivity: AppCompatActivity() {
     private fun handleMoviesChange() {
         viewModel.movies.onEach { movies ->
             binding.popularMoviesList.adapter = MovieAdapter(movies)
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun handleError() {
+        viewModel.error.onEach { error ->
+            if (error != null) {
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+                // TODO create custom toast layout
+            }
         }.launchIn(lifecycleScope)
     }
 }

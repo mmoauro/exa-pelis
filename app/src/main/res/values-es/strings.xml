@@ -5,5 +5,6 @@
     <string name="navigate_main">Ir a actividad principal</string>
 
     <string name="popular_movies">Peliculas populares</string>
+    <string name="movie_image_description">Imagen de la película</string>
 
 </resources>

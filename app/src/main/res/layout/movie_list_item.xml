@@ -8,19 +8,18 @@
     <ImageView
         android:id="@+id/movie_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_launcher_background"/>
+        android:contentDescription="@string/movie_image_description">
     <TextView
         android:id="@+id/movie_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Movie name"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/movie_image"
         android:layout_marginTop="12dp"
-        android:textColor="@color/primary"/>
+        android:textColor="@color/on_surface_text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.exa.pelis.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.exa.pelis.databinding.MovieListItemBinding
 import com.exa.pelis.model.Movie
 
@@ -13,6 +14,9 @@ class MovieAdapter(private val movies: List<Movie>) :
 
         fun bind (movie: Movie) {
             binding.movieName.text = movie.title
+            Glide.with(binding.root)
+                .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+                .into(binding.movieImage)
         }
     }
 

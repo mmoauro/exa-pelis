@@ -1,18 +1,27 @@
 package com.exa.pelis.data_source
 
-import com.exa.pelis.model.Movie
+import com.exa.pelis.model.PopularMoviesResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.net.UnknownHostException
 import javax.inject.Inject
 
-class MovieRemoteDataSource @Inject constructor() {
+class MovieRemoteDataSource @Inject constructor(
+    private val movieApi: MovieApi
+) {
 
-    suspend fun getPopularMovies(): List<Movie> {
+    suspend fun getPopularMovies(page: Int): PopularMoviesResponse {
         return withContext(Dispatchers.IO) {
-            listOf(Movie("Terminator", 1, "A cyborg is sent from the future to kill Sarah Connor."),
-                Movie("The Matrix", 2, "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers."),
-                Movie("The Lord of the Rings: The Fellowship of the Ring", 3, "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron."),
-                Movie("The Shawshank Redemption", 4, "Two"))
+            try {
+                val response = movieApi.getPopularMovies(page)
+                response.body() ?: PopularMoviesResponse(0, emptyList(), 0, 0)
+            }
+            catch (e: UnknownHostException) {
+                PopularMoviesResponse(0, emptyList(), 0, 0, "No internet connection")
+            }
+            catch (e: Exception) {
+                PopularMoviesResponse(0, emptyList(), 0, 0, "An unexpected error occurred")
+            }
         }
     }
 

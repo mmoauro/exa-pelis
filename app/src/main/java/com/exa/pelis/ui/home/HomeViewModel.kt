@@ -1,6 +1,5 @@
 package com.exa.pelis.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.exa.pelis.repositories.MovieRepository
@@ -20,18 +19,21 @@ class HomeViewModel @Inject constructor (
     val movies get() = _movies.asStateFlow()
 
     private val _loading = MutableStateFlow(true)
-    val loading  get() = _loading
+    val loading  get() = _loading.asStateFlow()
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error get() = _error.asStateFlow()
 
     init {
         getPopularMovies()
     }
 
     private fun getPopularMovies() {
-        Log.i("HomeViewModel", "getPopularMovies")
         viewModelScope.launch {
             _loading.value = true
             val popularMovies = repository.getPopularMovies()
-            _movies.value = popularMovies
+            _movies.value = popularMovies.results
+            _error.value = popularMovies.error
             _loading.value = false
         }
 
