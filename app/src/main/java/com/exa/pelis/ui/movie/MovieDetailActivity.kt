@@ -11,6 +11,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.exa.pelis.R
 import com.exa.pelis.databinding.MovieDetailsActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -36,15 +37,19 @@ class MovieDetailActivity: AppCompatActivity() {
             if (movieDetails == null) {
                 return@onEach
             }
+            binding.movieDetails.visibility = View.INVISIBLE
             binding.movieName.text = movieDetails.movie.title
             binding.yearOfRelease.text = movieDetails.releaseDate
             binding.genresList.text = movieDetails.genres.joinToString { it.name }
             binding.overview.text = movieDetails.movie.overview
-            binding.movieDetails.visibility = View.VISIBLE
             binding.duration.text = "${movieDetails.runtime} min"
 
+            if (movieDetails.backdropPath == null) {
+                movieDetails.backdropPath = movieDetails.movie.posterPath
+            }
+
             Glide.with(binding.root)
-                .load("https://image.tmdb.org/t/p/w500${movieDetails.backdropPath}")
+                .load("https://image.tmdb.org/t/p/original${movieDetails.backdropPath}")
                 .listener(object: RequestListener<Drawable> {
                     override fun onResourceReady(
                         resource: Drawable,
@@ -53,7 +58,9 @@ class MovieDetailActivity: AppCompatActivity() {
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
+                        // Hide loader and show movie details
                         binding.loader.visibility = View.INVISIBLE
+                        binding.movieDetails.visibility = View.VISIBLE
                         return false
                     }
 
@@ -63,9 +70,14 @@ class MovieDetailActivity: AppCompatActivity() {
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        TODO("Not yet implemented")
+                        if (movieDetails.movie.title != "") {
+                            binding.movieDetails.visibility = View.VISIBLE
+                        }
+                        binding.loader.visibility = View.INVISIBLE
+                        return false
                     }
                 })
+                .error(R.drawable.broken_image)
                 .into(binding.movieImage)
 
 

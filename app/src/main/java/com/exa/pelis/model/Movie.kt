@@ -2,7 +2,7 @@ package com.exa.pelis.model
 
 import com.google.gson.annotations.SerializedName
 
-class Movie (
+data class Movie (
     @SerializedName("title")
     val title: String,
     @SerializedName("id")
