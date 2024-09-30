@@ -9,7 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background">#F9F9FF</color>
     <color name="primary">#415F91</color>
-    <color name="on_surface_text">#44474E</color>
-
+    <color name="on_surface_text">#191C20</color>
+    <color name="on_surface_secondary">#44474E</color>
+    <color name="error">#BA1A1A</color>
+    <color name="on_error">#690005</color>
 
 </resources>

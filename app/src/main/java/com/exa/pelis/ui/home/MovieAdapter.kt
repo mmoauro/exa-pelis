@@ -7,16 +7,22 @@ import com.bumptech.glide.Glide
 import com.exa.pelis.databinding.MovieListItemBinding
 import com.exa.pelis.model.Movie
 
-class MovieAdapter(private val movies: List<Movie>) :
+class MovieAdapter(private val movies: List<Movie>, private val onMovieClicked: (Int) -> Unit) :
     RecyclerView.Adapter<MovieAdapter.MovieHolder>() {
 
-    class MovieHolder(private val binding: MovieListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MovieHolder(private val binding: MovieListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind (movie: Movie) {
             binding.movieName.text = movie.title
+            // Load movie poster image
             Glide.with(binding.root)
                 .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
                 .into(binding.movieImage)
+
+            // Add click listener
+            binding.root.setOnClickListener {
+                onMovieClicked(movie.id)
+            }
         }
     }
 
