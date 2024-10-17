@@ -1,6 +1,5 @@
 package com.exa.pelis.data_source
 
-import com.exa.pelis.model.MovieDetails
 import com.exa.pelis.model.MovieDetailsResponse
 import com.exa.pelis.model.PopularMoviesResponse
 import kotlinx.coroutines.Dispatchers
@@ -30,9 +29,9 @@ class MovieRemoteDataSource @Inject constructor(
         return withContext(Dispatchers.IO) {
             try {
                 val response = movieApi.getMovieDetails(movieId, Locale.getDefault().toString())
-                response.body() ?: MovieDetailsResponse("", 0, "", "", "", 0, emptyList(), "","No internet connection") // same as above
+                response.body() ?: MovieDetailsResponse("", 0, "", "", "", 0, emptyList(), "", 0.0,"No internet connection") // same as above
             } catch (e: Exception) {
-                MovieDetailsResponse("", 0, "", "", "", 0, emptyList(), "","An unexpected error occurred") // same as above
+                MovieDetailsResponse("", 0, "", "", "", 0, emptyList(), "",0.0,"An unexpected error occurred") // same as above
             }
         }
     }

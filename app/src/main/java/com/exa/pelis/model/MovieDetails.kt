@@ -5,6 +5,7 @@ class MovieDetails (
     val releaseDate: String,
     val runtime: Int,
     val genres: List<Genre>,
-    var backdropPath: String? // I found a movie without backdrop_path
+    var backdropPath: String?, // I found a movie without backdrop_path
+    val voteAverage: Double,
 ) {
 }

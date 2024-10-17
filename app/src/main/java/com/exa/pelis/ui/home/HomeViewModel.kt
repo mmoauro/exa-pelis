@@ -32,6 +32,10 @@ class HomeViewModel @Inject constructor (
     .flow
         .cachedIn(viewModelScope)
 
+    init {
+        getPopularMovies()
+    }
+
     private fun getPopularMovies() {
         viewModelScope.launch {
             _loading.value = true

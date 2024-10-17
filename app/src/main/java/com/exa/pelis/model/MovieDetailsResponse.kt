@@ -19,6 +19,8 @@ class MovieDetailsResponse (
     val genres: List<Genre>,
     @SerializedName("backdrop_path")
     val backdropPath: String,
+    @SerializedName("vote_average")
+    val voteAverage: Double,
     val error: String? = null
 ) {
 
@@ -33,7 +35,8 @@ class MovieDetailsResponse (
             releaseDate = releaseDate,
             runtime = runtime,
             genres = genres,
-            backdropPath = backdropPath
+            backdropPath = backdropPath,
+            voteAverage = voteAverage
         )
     }
 }
