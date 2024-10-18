@@ -11,9 +11,9 @@ import androidx.compose.ui.res.colorResource
 import com.exa.pelis.R
 
 @Composable
-fun Loader() {
+fun Loader(modifier: Modifier = Modifier) {
 
-    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         CircularProgressIndicator(
             color = colorResource(id = R.color.primary),
         )

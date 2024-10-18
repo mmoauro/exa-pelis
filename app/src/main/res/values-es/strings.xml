@@ -8,4 +8,5 @@
     <string name="rating">Calificación:</string>
     <string name="year_of_release">Fecha de lanzamiento:</string>
     <string name="duration">Duracion:</string>
+    <string name="retry">Reintentar</string>
 </resources>

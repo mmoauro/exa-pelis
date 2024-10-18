@@ -19,8 +19,7 @@ class HomeViewModel @Inject constructor (
     private val repository: MovieRepository
         ): ViewModel() {
 
-    private val _movies = MutableStateFlow<List<Movie>>(emptyList())
-    val movies get() = _movies.asStateFlow()
+
 
     private val _loading = MutableStateFlow(true)
     val loading  get() = _loading.asStateFlow()
@@ -28,22 +27,13 @@ class HomeViewModel @Inject constructor (
     private val _error = MutableStateFlow<String?>(null)
     val error get() = _error.asStateFlow()
 
-    val moviesPager = Pager(config = PagingConfig(pageSize = 20), pagingSourceFactory = {PopularMoviesPagingSource(repository)})
+    val moviesPager = Pager(config = PagingConfig(pageSize = 20), pagingSourceFactory = {PopularMoviesPagingSource(repository, onError = ::setError )})
     .flow
         .cachedIn(viewModelScope)
 
-    init {
-        getPopularMovies()
+    fun setError(error: String?) {
+        _error.value = error
     }
 
-    private fun getPopularMovies() {
-        viewModelScope.launch {
-            _loading.value = true
-            val popularMovies = repository.getPopularMovies()
-            _movies.value = popularMovies.results
-            _error.value = popularMovies.error
-            _loading.value = false
-        }
 
-    }
 }

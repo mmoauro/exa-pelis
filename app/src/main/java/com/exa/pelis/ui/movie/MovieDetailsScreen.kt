@@ -1,30 +1,33 @@
 package com.exa.pelis.ui.movie
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.exa.pelis.R
-import com.exa.pelis.model.Movie
-import com.exa.pelis.model.MovieDetails
 import com.exa.pelis.ui.common.BodyText
+import com.exa.pelis.ui.common.Button
 import com.exa.pelis.ui.common.Loader
 import com.exa.pelis.ui.common.Title
 import java.math.BigDecimal
@@ -36,29 +39,42 @@ fun MovieDetailsScreen(
     movieId: Int
 ) {
 
-    LaunchedEffect(Unit){
-        viewModel.loadMovieDetails(movieId)
-    }
-
     var imageIsLoading by remember { mutableStateOf(true) }
     val details by viewModel.movieDetails.collectAsStateWithLifecycle()
+    val isLoading by viewModel.loading.collectAsStateWithLifecycle()
+    val error by viewModel.error.collectAsStateWithLifecycle()
     val movieDetails = details
 
-    if (movieDetails == null) {
-        return Loader()
+    LaunchedEffect(Unit){
+        viewModel.loadMovieDetails(movieId)
+        imageIsLoading = true
     }
 
-    Column (Modifier.background(color = colorResource(id = R.color.background))) {
+    Column (Modifier.background(color = colorResource(id = R.color.background)), verticalArrangement = if (imageIsLoading) Arrangement.Center else Arrangement.Top) {
+        if (error != null) {
+            return Column (modifier = Modifier.padding(8.dp).fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                BodyText(text = error!!, color = colorResource(R.color.error))
+                Button(
+                    text = stringResource(id = R.string.retry),
+                    onClick = { viewModel.loadMovieDetails(movieId)
+                    })
+            }
+        }
+        if (isLoading || movieDetails == null) {
+            return Loader(modifier = Modifier.height(200.dp))
+        }
 
         if (imageIsLoading) {
-            Loader()
+            Loader(modifier = Modifier.height(200.dp))
         }
         AsyncImage(
             model = "https://image.tmdb.org/t/p/original/${movieDetails.backdropPath}",
-            //model = R.drawable.broken_image,
             contentDescription = movieDetails.movie.title,
             contentScale = ContentScale.Fit,
-            onSuccess = {imageIsLoading = false},
+            onLoading = {imageIsLoading = true},
+            onSuccess = {
+                Log.i("MovieDetailsScreen", "onSuccessImage")
+                imageIsLoading = false},
         )
 
         Column(modifier = Modifier.padding(8.dp)) {

@@ -28,7 +28,9 @@ class MovieDetailViewModel @Inject constructor(
 
     fun loadMovieDetails(movieId: Int) {
         viewModelScope.launch {
+            _movieDetails.value = null
             _loading.value = true
+            _error.value = null
             val response: MovieDetailsResponse = repository.getMovieDetails(movieId)
             _movieDetails.value = response.toMovieDetails()
             _error.value = response.error

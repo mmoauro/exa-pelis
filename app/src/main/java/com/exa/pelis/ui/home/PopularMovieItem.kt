@@ -25,19 +25,18 @@ import com.exa.pelis.ui.common.Loader
 fun PopularMovieItem(movie: Movie, onMoviePress: () -> Unit) {
     var imageIsLoading by remember { mutableStateOf(true) }
     Column(modifier = Modifier.padding(8.dp).defaultMinSize(minHeight = 250.dp).clickable { onMoviePress() }) {
-        if (imageIsLoading) {
-            Column(verticalArrangement = Arrangement.Center, modifier =Modifier.fillMaxHeight()) {
-                Loader()
-            }
-        }
         AsyncImage(
             model = "https://image.tmdb.org/t/p/original/${movie.posterPath}",
             //model = R.drawable.broken_image,
             contentDescription = movie.title,
             contentScale = ContentScale.Fit,
             onSuccess = {imageIsLoading = false},
-            modifier = Modifier.defaultMinSize(minHeight = 250.dp)
         )
+        if (imageIsLoading) {
+            Column(modifier =Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Center) {
+                Loader()
+            }
+        }
         BodyText(text = movie.title, fontSize = 20.sp, modifier = Modifier.padding(top = 12.dp))
     }
 }
