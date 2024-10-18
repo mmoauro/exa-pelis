@@ -1,5 +1,6 @@
 package com.exa.pelis.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,12 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
@@ -30,7 +33,8 @@ import com.exa.pelis.ui.common.Title
 fun PopularMoviesScreen(viewModel: HomeViewModel, onMoviePress: (Int) -> Unit) {
 
     val lazyMovies: LazyPagingItems<Movie> = viewModel.moviesPager.collectAsLazyPagingItems()
-    val error = viewModel.error.collectAsStateWithLifecycle()
+    val error by viewModel.error.collectAsStateWithLifecycle()
+    val isLoading = lazyMovies.loadState.refresh is LoadState.Loading
 
     fun onRetry() {
         viewModel.setError(null)
@@ -39,21 +43,20 @@ fun PopularMoviesScreen(viewModel: HomeViewModel, onMoviePress: (Int) -> Unit) {
 
     Column (Modifier.background(colorResource(id = R.color.background))) {
         Title(text = stringResource(id = R.string.popular_movies), modifier = Modifier.padding(8.dp))
-        if (lazyMovies.itemCount == 0 && error.value == null) {
+        if (isLoading) {
             return Loader(modifier = Modifier.fillMaxHeight())
         }
 
-        if (error.value != null) {
+        if (error != null) {
             return Column (modifier = Modifier.padding(8.dp).fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                BodyText(text = error.value!!, color = colorResource(R.color.error))
+                BodyText(text = error!!, color = colorResource(R.color.error))
                 Button(text = stringResource(id = R.string.retry), onClick = { onRetry() })
             }
         }
         LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-
             items(
                 count = lazyMovies.itemCount,
-                key = lazyMovies.itemKey { movie -> "${movie.id}, ${movie.title}" },
+                key = lazyMovies.itemKey { movie -> "${movie.id}, ${movie.title}" }, // TODO: there are repeated keys
                 contentType = lazyMovies.itemContentType{"Movies"}
             ) {
                 index ->

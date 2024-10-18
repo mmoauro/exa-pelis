@@ -19,11 +19,6 @@ class HomeViewModel @Inject constructor (
     private val repository: MovieRepository
         ): ViewModel() {
 
-
-
-    private val _loading = MutableStateFlow(true)
-    val loading  get() = _loading.asStateFlow()
-
     private val _error = MutableStateFlow<String?>(null)
     val error get() = _error.asStateFlow()
 

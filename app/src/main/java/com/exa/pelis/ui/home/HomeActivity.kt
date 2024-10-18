@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.exa.pelis.databinding.HomeActivityBinding
 import com.exa.pelis.ui.movie.MovieDetailViewModel
 import com.exa.pelis.ui.movie.MovieDetailsScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,12 +15,10 @@ import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class HomeActivity: AppCompatActivity() {
-
-    private lateinit var binding: HomeActivityBinding
     private val viewModel by viewModels<HomeViewModel>()
     private val movieDetailsViewModel by viewModels<MovieDetailViewModel>()
-    //private val pagingAdapter = MovieAdapter(::onMovieClicked, MovieComparator)
 
+    // Define the routes
     @Serializable
     object Popular
     @Serializable
@@ -45,43 +42,5 @@ class HomeActivity: AppCompatActivity() {
 
             }
         }
-
-
-        //handleMoviesChange()
-        //handleLoadingChange()
-        //handleError()
-    }
-
-    /*
-
-    private fun handleLoadingChange() {
-        viewModel.loading.onEach { loading -> {
-            // Show or hide loading
-        } }
-    }
-
-    private fun handleMoviesChange() {
-        lifecycleScope.launch {
-            viewModel.moviesPager.collectLatest { pagingData ->
-                pagingAdapter.submitData(pagingData)
-            }
-        }
-    }
-
-    private fun handleError() {
-        viewModel.error.onEach { error ->
-            if (error != null) {
-                Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
-                // TODO create custom toast layout
-            }
-        }.launchIn(lifecycleScope)
-    }
-
-    private fun onMovieClicked(movieId: Int) {
-        val intent = Intent(this, MovieDetailActivity::class.java)
-        intent.putExtra("movieId", movieId)
-        startActivity(intent)
-    }
-
-     */
+}
 }
