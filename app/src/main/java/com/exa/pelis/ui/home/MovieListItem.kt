@@ -2,7 +2,6 @@ package com.exa.pelis.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,16 +20,16 @@ import com.exa.pelis.model.Movie
 import com.exa.pelis.ui.common.BodyText
 
 @Composable
-fun PopularMovieItem(movie: Movie, onMoviePress: () -> Unit) {
+fun MovieListItem(movie: Movie, onMoviePress: () -> Unit, modifier: Modifier = Modifier) {
     var imageIsLoading by remember { mutableStateOf(true) }
-    Column(modifier = Modifier.padding(8.dp).defaultMinSize(minHeight = 250.dp).clickable { onMoviePress() }) {
+    Column(modifier = modifier.padding(8.dp).clickable { onMoviePress() }) {
         AsyncImage(
             model = "https://image.tmdb.org/t/p/original/${movie.posterPath}",
             //model = R.drawable.broken_image,
             contentDescription = movie.title,
             contentScale = ContentScale.Fit,
             onSuccess = {imageIsLoading = false},
-            placeholder = painterResource(R.drawable.loading_image)
+            placeholder = painterResource(R.drawable.loading_image),
         )
         BodyText(text = movie.title, fontSize = 20.sp, modifier = Modifier.padding(top = 12.dp))
     }
@@ -39,7 +38,7 @@ fun PopularMovieItem(movie: Movie, onMoviePress: () -> Unit) {
 @Composable
 @Preview(showBackground = true)
 fun PopularMovieItemPreview() {
-    PopularMovieItem(
+    MovieListItem(
         Movie(
             id = 1,
             title = "Movie Title fjadsklfjsadl",

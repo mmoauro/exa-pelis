@@ -9,4 +9,7 @@
     <string name="year_of_release">Fecha de lanzamiento:</string>
     <string name="duration">Duracion:</string>
     <string name="retry">Reintentar</string>
+    <string name="similar_movies">Peliculas similares</string>
+    <string name="no_internet_connection">No hay conexión a internet</string>
+    <string name="unexpected_error">Hubo un error inesperado</string>
 </resources>

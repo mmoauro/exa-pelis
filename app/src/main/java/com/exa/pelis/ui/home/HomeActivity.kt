@@ -4,10 +4,16 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.exa.pelis.R
 import com.exa.pelis.ui.movie.MovieDetailViewModel
 import com.exa.pelis.ui.movie.MovieDetailsScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,17 +33,20 @@ class HomeActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         setContent {
             val navigationController = rememberNavController()
-            NavHost(navController = navigationController, startDestination = Popular) {
+
+            fun navigateToMovieDetails(movieId: Int) {
+                navigationController.navigate(route = MovieDetails(movieId))
+            }
+            NavHost(navController = navigationController, startDestination = Popular, modifier = Modifier.background(color = colorResource(id = R.color.background)).fillMaxSize()) {
                 composable<Popular> {
-                    PopularMoviesScreen(viewModel, onMoviePress = {movieId ->
-                        navigationController.navigate(route = MovieDetails(movieId))
-                    })
+                    PopularMoviesScreen(viewModel, onMoviePress = ::navigateToMovieDetails)
                 }
                 composable<MovieDetails> { backStackEntry ->
                     val details: MovieDetails = backStackEntry.toRoute()
-                    MovieDetailsScreen(movieDetailsViewModel, details.movieId)
+                    MovieDetailsScreen(movieDetailsViewModel, details.movieId, onSimilarMoviePress = ::navigateToMovieDetails )
                 }
 
             }

@@ -18,4 +18,8 @@ interface MovieApi {
     @Headers("Authorization: Bearer ")
     @GET("movie/{movieId}")
     suspend fun getMovieDetails(@Path("movieId") movieId: Int, @Query("language") language: String): Response<MovieDetailsResponse>
+
+    @Headers("Authorization: Bearer")
+    @GET("movie/{movieId}/similar")
+    suspend fun getSimilarMovies(@Path("movieId") movieId: Int, @Query("page") page: Int, @Query("language") language: String): Response<PopularMoviesResponse>
 }

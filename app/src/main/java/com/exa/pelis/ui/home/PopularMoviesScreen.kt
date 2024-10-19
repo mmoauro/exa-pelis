@@ -1,7 +1,5 @@
 package com.exa.pelis.ui.home
 
-import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -41,7 +39,7 @@ fun PopularMoviesScreen(viewModel: HomeViewModel, onMoviePress: (Int) -> Unit) {
         lazyMovies.retry()
     }
 
-    Column (Modifier.background(colorResource(id = R.color.background))) {
+    Column {
         Title(text = stringResource(id = R.string.popular_movies), modifier = Modifier.padding(8.dp))
         if (isLoading) {
             return Loader(modifier = Modifier.fillMaxHeight())
@@ -62,7 +60,7 @@ fun PopularMoviesScreen(viewModel: HomeViewModel, onMoviePress: (Int) -> Unit) {
                 index ->
                 val movie = lazyMovies[index]
                 if (movie != null) {
-                    PopularMovieItem(movie = movie, onMoviePress = { onMoviePress(movie.id) })
+                    MovieListItem(movie = movie, onMoviePress = { onMoviePress(movie.id) })
                 }
 
             }

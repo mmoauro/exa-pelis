@@ -7,11 +7,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.exa.pelis.data_source.PopularMoviesPagingSource
 import com.exa.pelis.repositories.MovieRepository
-import com.exa.pelis.model.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

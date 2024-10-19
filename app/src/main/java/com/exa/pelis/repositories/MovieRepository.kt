@@ -6,8 +6,8 @@ import com.exa.pelis.model.PopularMoviesResponse
 import javax.inject.Inject
 
 class MovieRepository @Inject constructor(
-    private val remoteDataSource: MovieRemoteDataSource
-        ) {
+    private val remoteDataSource: MovieRemoteDataSource,
+) {
 
     suspend fun getPopularMovies(page: Int = 1): PopularMoviesResponse {
         return remoteDataSource.getPopularMovies(page)
@@ -15,6 +15,10 @@ class MovieRepository @Inject constructor(
 
     suspend fun getMovieDetails(movieId: Int): MovieDetailsResponse {
         return remoteDataSource.getMovieDetails(movieId)
+    }
+
+    suspend fun getSimilarMovies(movieId: Int, page: Int = 1): PopularMoviesResponse {
+        return remoteDataSource.getSimilarMovies(movieId, page)
     }
 
 }
