@@ -1,11 +1,13 @@
 package com.exa.pelis.ui.movie
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -49,8 +51,22 @@ fun MovieDetailsScreen(
     val similarMovies = viewModel.similarMoviesPager.collectAsLazyPagingItems()
     val movieDetails = details
 
+    val starredMovies by viewModel.starredMovies.collectAsStateWithLifecycle()
+
+    fun isStarred(): Boolean {
+        return starredMovies.contains(movieId)
+    }
+
     LaunchedEffect(Unit) {
         viewModel.loadMovieDetails(movieId)
+    }
+
+    fun onStarPress() {
+        if (viewModel.isStarred(movieId)) {
+            viewModel.removeStarredMovie(movieId)
+        } else {
+            viewModel.saveStarredMovie(movieId)
+        }
     }
 
     if (error != null) {
@@ -79,17 +95,28 @@ fun MovieDetailsScreen(
             contentDescription = movieDetails.movie.title,
             placeholder = painterResource(R.drawable.loading_image),
         )
-
         Column(modifier = Modifier.padding(8.dp)) {
-            Title(text = movieDetails.movie.title)
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Title(text = movieDetails.movie.title)
+                Image(
+                    painter = painterResource(id = if (isStarred()) R.drawable.starred_movie else R.drawable.unstarred_movie),
+                    contentDescription = stringResource(id = if (isStarred()) R.string.remove_starred else R.string.save_starred),
+                    modifier = Modifier
+                        .clickable { onStarPress() }
+                        .size(40.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(4.dp))
             Row {
                 AsyncImage(
                     model = R.drawable.star_rate,
                     contentDescription = "Rating",
                     modifier = Modifier
-                        .width(24.dp)
-                        .height(24.dp)
+                        .size(24.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 BodyText(
@@ -118,19 +145,25 @@ fun MovieDetailsScreen(
                 name = stringResource(id = R.string.duration),
                 value = "${movieDetails.runtime} min"
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             Title(text = stringResource(id = R.string.similar_movies))
             Spacer(modifier = Modifier.height(8.dp))
             LazyRow {
                 items(
                     count = similarMovies.itemCount,
                     key = similarMovies.itemKey { movie -> "${movie.id}, ${movie.title}" },
-                    contentType = similarMovies.itemContentType{"Movies"}
-                ) {
-                        index ->
+                    contentType = similarMovies.itemContentType { "Movies" }
+                ) { index ->
                     val movie = similarMovies[index]
                     if (movie != null) {
-                        MovieListItem(movie = movie, onMoviePress = { onSimilarMoviePress(movie.id) }, modifier = Modifier.width(150.dp).height(300.dp).padding(2.dp))
+                        MovieListItem(
+                            movie = movie,
+                            onMoviePress = { onSimilarMoviePress(movie.id) },
+                            modifier = Modifier
+                                .width(150.dp)
+                                .height(300.dp)
+                                .padding(2.dp)
+                        )
                     }
 
                 }

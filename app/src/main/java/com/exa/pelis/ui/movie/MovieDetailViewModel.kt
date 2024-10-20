@@ -6,7 +6,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.exa.pelis.data_source.PopularMoviesPagingSource
 import com.exa.pelis.data_source.SimilarMoviesPagingSource
 import com.exa.pelis.model.Movie
 import com.exa.pelis.model.MovieDetails
@@ -15,7 +14,6 @@ import com.exa.pelis.repositories.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,7 +33,17 @@ class MovieDetailViewModel @Inject constructor(
     private val _error = MutableStateFlow<String?>(null)
     val error get() = _error.asStateFlow()
 
+    private val _starredMovies = MutableStateFlow<Set<Int>>(setOf())
+    val starredMovies get() = _starredMovies.asStateFlow()
+
+
     var similarMoviesPager: Flow<PagingData<Movie>> = MutableStateFlow(PagingData.empty())
+
+    init {
+        viewModelScope.launch {
+            _starredMovies.value = repository.getStarredMovies()
+        }
+    }
 
 
     fun loadMovieDetails(movieId: Int) {
@@ -53,10 +61,26 @@ class MovieDetailViewModel @Inject constructor(
         }
     }
 
+    fun saveStarredMovie(movieId: Int) {
+        viewModelScope.launch {
+            repository.saveStarredMovie(movieId)
+            _starredMovies.value = repository.getStarredMovies()
+        }
+    }
+
+    fun removeStarredMovie(movieId: Int) {
+        viewModelScope.launch {
+            repository.removeStarredMovie(movieId)
+            _starredMovies.value = repository.getStarredMovies()
+        }
+    }
+
     private fun setError(error: String?) {
         _error.value = error
     }
 
-
+    fun isStarred(movieId: Int): Boolean {
+        return starredMovies.value.contains(movieId)
+    }
 
 }

@@ -16,4 +16,6 @@
     <string name="unexpected_error">Unexpected error</string>
     <string name="search">Search</string>
     <string name="close">Close</string>
+    <string name="save_starred">Add to favorite</string>
+    <string name="remove_starred">Remove from favorite</string>
 </resources>

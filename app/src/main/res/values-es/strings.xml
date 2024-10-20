@@ -14,4 +14,6 @@
     <string name="unexpected_error">Hubo un error inesperado</string>
     <string name="search">Buscar</string>
     <string name="close">Cerrar</string>
+    <string name="save_starred">Agregar a favoritos</string>
+    <string name="remove_starred">Eliminar de favoritos</string>
 </resources>

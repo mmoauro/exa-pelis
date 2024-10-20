@@ -17,7 +17,5 @@ fun Button(modifier: Modifier = Modifier, onClick: () -> Unit, text: String) {
             text = text,
             color = colorResource(id = R.color.on_primary)
         )
-
     }
-
 }

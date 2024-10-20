@@ -1,5 +1,6 @@
 package com.exa.pelis.repositories
 
+import com.exa.pelis.data_source.MovieLocalDataSource
 import com.exa.pelis.data_source.MovieRemoteDataSource
 import com.exa.pelis.model.MovieDetailsResponse
 import com.exa.pelis.model.MovieListApiResponse
@@ -7,6 +8,7 @@ import javax.inject.Inject
 
 class MovieRepository @Inject constructor(
     private val remoteDataSource: MovieRemoteDataSource,
+    private val localDataSource: MovieLocalDataSource
 ) {
 
     suspend fun getPopularMovies(page: Int = 1): MovieListApiResponse {
@@ -23,6 +25,18 @@ class MovieRepository @Inject constructor(
 
     suspend fun searchMovies(query: String, page: Int = 1): MovieListApiResponse {
         return remoteDataSource.searchMovies(query, page)
+    }
+
+    suspend fun saveStarredMovie(movieId: Int) {
+        localDataSource.saveStarredMovie(movieId)
+    }
+
+    suspend fun removeStarredMovie(movieId: Int) {
+        localDataSource.removeStarredMovie(movieId)
+    }
+
+    suspend fun getStarredMovies(): Set<Int> {
+        return localDataSource.getStarredMovies()
     }
 
 }
