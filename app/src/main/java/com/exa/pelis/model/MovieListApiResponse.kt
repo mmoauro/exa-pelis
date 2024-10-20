@@ -2,7 +2,7 @@ package com.exa.pelis.model
 
 import com.google.gson.annotations.SerializedName
 
-class PopularMoviesResponse (
+class MovieListApiResponse (
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")

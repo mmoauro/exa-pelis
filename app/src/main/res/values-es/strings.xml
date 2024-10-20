@@ -12,4 +12,6 @@
     <string name="similar_movies">Peliculas similares</string>
     <string name="no_internet_connection">No hay conexión a internet</string>
     <string name="unexpected_error">Hubo un error inesperado</string>
+    <string name="search">Buscar</string>
+    <string name="close">Cerrar</string>
 </resources>
