@@ -21,6 +21,9 @@ class StarredMoviesViewModel @Inject constructor(
     private val _starredMovieDetails = MutableStateFlow<List<Movie>>(listOf())
     val starredMovieDetails get() = _starredMovieDetails.asStateFlow()
 
+    private val _loadingDetails = MutableStateFlow(true)
+    val loadingDetails get() = _loadingDetails.asStateFlow()
+
 
     init {
         viewModelScope.launch {
@@ -51,6 +54,7 @@ class StarredMoviesViewModel @Inject constructor(
 
     private fun obtainMovieDetails() {
         viewModelScope.launch {
+            _loadingDetails.value = true
             val movies = mutableListOf<Movie>()
             val ids = starredMovies.value
             ids.forEach {
@@ -58,6 +62,7 @@ class StarredMoviesViewModel @Inject constructor(
                 movies.add(movieDetails.toMovieDetails().movie)
             }
             _starredMovieDetails.value = movies
+            _loadingDetails.value = false
         }
 
     }
