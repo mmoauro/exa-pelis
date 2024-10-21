@@ -33,18 +33,9 @@ class MovieDetailViewModel @Inject constructor(
     private val _error = MutableStateFlow<String?>(null)
     val error get() = _error.asStateFlow()
 
-    private val _starredMovies = MutableStateFlow<Set<Int>>(setOf())
-    val starredMovies get() = _starredMovies.asStateFlow()
 
 
     var similarMoviesPager: Flow<PagingData<Movie>> = MutableStateFlow(PagingData.empty())
-
-    init {
-        viewModelScope.launch {
-            _starredMovies.value = repository.getStarredMovies()
-        }
-    }
-
 
     fun loadMovieDetails(movieId: Int) {
         similarMoviesPager = Pager(config = PagingConfig(pageSize = 20), pagingSourceFactory = { SimilarMoviesPagingSource(repository, ::setError, movieId ) })
@@ -61,26 +52,8 @@ class MovieDetailViewModel @Inject constructor(
         }
     }
 
-    fun saveStarredMovie(movieId: Int) {
-        viewModelScope.launch {
-            repository.saveStarredMovie(movieId)
-            _starredMovies.value = repository.getStarredMovies()
-        }
-    }
-
-    fun removeStarredMovie(movieId: Int) {
-        viewModelScope.launch {
-            repository.removeStarredMovie(movieId)
-            _starredMovies.value = repository.getStarredMovies()
-        }
-    }
-
     private fun setError(error: String?) {
         _error.value = error
-    }
-
-    fun isStarred(movieId: Int): Boolean {
-        return starredMovies.value.contains(movieId)
     }
 
 }

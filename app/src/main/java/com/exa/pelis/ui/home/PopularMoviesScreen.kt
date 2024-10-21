@@ -1,6 +1,5 @@
 package com.exa.pelis.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -65,7 +64,7 @@ fun PopularMoviesScreen(viewModel: HomeViewModel, onMoviePress: (Int) -> Unit) {
     }
 
     LaunchedEffect(key1 = searchInput) {
-        delay(1500)
+        //delay(1500)
         viewModel.searchMovies(searchInput)
     }
 
@@ -94,8 +93,8 @@ fun PopularMoviesScreen(viewModel: HomeViewModel, onMoviePress: (Int) -> Unit) {
                         focusedTextColor = colorResource(id = R.color.on_surface_text),
                         unfocusedTextColor = colorResource(id = R.color.on_surface_text),
                         cursorColor = colorResource(id = R.color.on_surface_secondary),
-                        focusedContainerColor = colorResource(id = R.color.background),
-                        unfocusedContainerColor = colorResource(id = R.color.background),
+                        focusedContainerColor = colorResource(id = R.color.surface),
+                        unfocusedContainerColor = colorResource(id = R.color.surface),
                         focusedIndicatorColor = colorResource(id = R.color.primary),
                         focusedLabelColor = colorResource(id = R.color.primary),
                     ),

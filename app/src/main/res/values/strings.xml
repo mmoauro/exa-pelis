@@ -18,4 +18,8 @@
     <string name="close">Close</string>
     <string name="save_starred">Add to favorite</string>
     <string name="remove_starred">Remove from favorite</string>
+    <string name="bottom_navigation_popular">Popular</string>
+    <string name="bottom_navigation_starred">Starred</string>
+    <string name="bottom_navigation_trending">Trending</string>
+    <string name="starred">Starred movies</string>
 </resources>

@@ -35,12 +35,14 @@ import com.exa.pelis.ui.common.Button
 import com.exa.pelis.ui.common.Loader
 import com.exa.pelis.ui.common.Title
 import com.exa.pelis.ui.home.MovieListItem
+import com.exa.pelis.ui.starred.StarredMoviesViewModel
 import java.math.BigDecimal
 import java.math.RoundingMode
 
 @Composable
 fun MovieDetailsScreen(
     viewModel: MovieDetailViewModel,
+    starredMoviesViewModel: StarredMoviesViewModel,
     movieId: Int,
     onSimilarMoviePress: (Int) -> Unit
 ) {
@@ -51,7 +53,7 @@ fun MovieDetailsScreen(
     val similarMovies = viewModel.similarMoviesPager.collectAsLazyPagingItems()
     val movieDetails = details
 
-    val starredMovies by viewModel.starredMovies.collectAsStateWithLifecycle()
+    val starredMovies by starredMoviesViewModel.starredMovies.collectAsStateWithLifecycle()
 
     fun isStarred(): Boolean {
         return starredMovies.contains(movieId)
@@ -62,10 +64,10 @@ fun MovieDetailsScreen(
     }
 
     fun onStarPress() {
-        if (viewModel.isStarred(movieId)) {
-            viewModel.removeStarredMovie(movieId)
+        if (starredMoviesViewModel.isStarred(movieId)) {
+            starredMoviesViewModel.removeStarredMovie(movieId)
         } else {
-            viewModel.saveStarredMovie(movieId)
+            starredMoviesViewModel.saveStarredMovie(movieId)
         }
     }
 

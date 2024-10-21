@@ -16,4 +16,8 @@
     <string name="close">Cerrar</string>
     <string name="save_starred">Agregar a favoritos</string>
     <string name="remove_starred">Eliminar de favoritos</string>
+    <string name="bottom_navigation_popular">Populares</string>
+    <string name="bottom_navigation_starred">Favoritas</string>
+    <string name="bottom_navigation_trending">Tendencias</string>
+    <string name="starred">Peliculas favoritas</string>
 </resources>
