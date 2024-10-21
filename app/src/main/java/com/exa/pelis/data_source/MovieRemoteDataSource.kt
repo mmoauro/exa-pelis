@@ -139,4 +139,29 @@ class MovieRemoteDataSource @Inject constructor(
         }
     }
 
+    suspend fun getTrendingMovies(page: Int = 1): MovieListApiResponse {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = movieApi.getTrendingMovies(page, Locale.getDefault().toString())
+                response.body() ?: MovieListApiResponse(0, emptyList(), 0, 0)
+            } catch (e: UnknownHostException) {
+                MovieListApiResponse(
+                    0,
+                    emptyList(),
+                    0,
+                    0,
+                    context.resources.getString(R.string.no_internet_connection)
+                )
+            } catch (e: Exception) {
+                MovieListApiResponse(
+                    0,
+                    emptyList(),
+                    0,
+                    0,
+                    context.resources.getString(R.string.unexpected_error)
+                )
+            }
+        }
+    }
+
 }

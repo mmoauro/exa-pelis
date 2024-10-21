@@ -39,4 +39,8 @@ class MovieRepository @Inject constructor(
         return localDataSource.getStarredMovies()
     }
 
+    suspend fun getTrendingMovies(page: Int = 1): MovieListApiResponse {
+        return remoteDataSource.getTrendingMovies(page)
+    }
+
 }

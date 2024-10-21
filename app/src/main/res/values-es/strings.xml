@@ -21,4 +21,5 @@
     <string name="bottom_navigation_trending">Tendencias</string>
     <string name="starred">Peliculas favoritas</string>
     <string name="no_starred_movies">No tiene peliculas favoritas</string>
+    <string name="trending_movies">Tendencias ultima semana</string>
 </resources>

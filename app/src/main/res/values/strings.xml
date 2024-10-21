@@ -23,4 +23,5 @@
     <string name="bottom_navigation_trending">Trending</string>
     <string name="starred">Starred movies</string>
     <string name="no_starred_movies">No starred movies</string>
+    <string name="trending_movies">Last week trending</string>
 </resources>

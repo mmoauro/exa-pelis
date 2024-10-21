@@ -31,6 +31,8 @@ import com.exa.pelis.ui.movie.MovieDetailViewModel
 import com.exa.pelis.ui.movie.MovieDetailsScreen
 import com.exa.pelis.ui.starred.StarredMoviesScreen
 import com.exa.pelis.ui.starred.StarredMoviesViewModel
+import com.exa.pelis.ui.trending.TrendingMoviesScreen
+import com.exa.pelis.ui.trending.TrendingMoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
 
@@ -39,6 +41,7 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel by viewModels<HomeViewModel>()
     private val movieDetailsViewModel by viewModels<MovieDetailViewModel>()
     private val starredMoviesViewModel by viewModels<StarredMoviesViewModel>()
+    private val trendingMoviesViewModel by viewModels<TrendingMoviesViewModel> ()
 
     // Define the routes
     @Serializable
@@ -143,6 +146,12 @@ class HomeActivity : AppCompatActivity() {
                     composable<Starred> {
                         StarredMoviesScreen(
                             starredMoviesViewModel,
+                            onMoviePress = ::navigateToMovieDetails
+                        )
+                    }
+                    composable<Trending> {
+                        TrendingMoviesScreen(
+                            trendingMoviesViewModel,
                             onMoviePress = ::navigateToMovieDetails
                         )
                     }
