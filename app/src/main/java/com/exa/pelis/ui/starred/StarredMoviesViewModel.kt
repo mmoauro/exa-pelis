@@ -24,6 +24,10 @@ class StarredMoviesViewModel @Inject constructor(
     private val _loadingDetails = MutableStateFlow(true)
     val loadingDetails get() = _loadingDetails.asStateFlow()
 
+    private var _error = MutableStateFlow<String?>(null)
+    val error get() = _error.asStateFlow()
+
+
 
     init {
         viewModelScope.launch {
@@ -52,13 +56,15 @@ class StarredMoviesViewModel @Inject constructor(
         return starredMovies.value.contains(movieId)
     }
 
-    private fun obtainMovieDetails() {
+    fun obtainMovieDetails() {
         viewModelScope.launch {
+            _error.value = null
             _loadingDetails.value = true
             val movies = mutableListOf<Movie>()
             val ids = starredMovies.value
             ids.forEach {
                 val movieDetails = repository.getMovieDetails(it)
+                _error.value = movieDetails.error
                 movies.add(movieDetails.toMovieDetails().movie)
             }
             _starredMovieDetails.value = movies

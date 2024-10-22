@@ -31,6 +31,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -40,13 +41,12 @@ import androidx.paging.compose.itemKey
 import com.exa.pelis.R
 import com.exa.pelis.model.Movie
 import com.exa.pelis.ui.common.BodyText
-import com.exa.pelis.ui.common.Button
 import com.exa.pelis.ui.common.Loader
+import com.exa.pelis.ui.common.RetryButton
 import com.exa.pelis.ui.common.Title
-import kotlinx.coroutines.delay
 
 @Composable
-fun PopularMoviesScreen(viewModel: HomeViewModel, onMoviePress: (Int) -> Unit) {
+fun PopularMoviesScreen(viewModel: HomeViewModel = hiltViewModel(), onMoviePress: (Int) -> Unit) {
 
     val lazyMovies: LazyPagingItems<Movie> = viewModel.moviesPager.collectAsLazyPagingItems()
     val lazySearchMovies: LazyPagingItems<Movie> =
@@ -136,16 +136,7 @@ fun PopularMoviesScreen(viewModel: HomeViewModel, onMoviePress: (Int) -> Unit) {
         }
 
         if (error != null) {
-            return Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                BodyText(text = error!!, color = colorResource(R.color.error))
-                Button(text = stringResource(id = R.string.retry), onClick = { onRetry() })
-            }
+            return RetryButton(error = error!!, onClick = {onRetry() })
         }
 
         if (!searchInputIsVisible) {

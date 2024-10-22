@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -20,13 +23,27 @@ import androidx.paging.compose.itemKey
 import com.exa.pelis.R
 import com.exa.pelis.model.Movie
 import com.exa.pelis.ui.common.Loader
+import com.exa.pelis.ui.common.RetryButton
 import com.exa.pelis.ui.common.Title
 import com.exa.pelis.ui.home.MovieListItem
 
 @Composable
-fun TrendingMoviesScreen(viewModel: TrendingMoviesViewModel, onMoviePress: (Int) -> Unit) {
+fun TrendingMoviesScreen(viewModel: TrendingMoviesViewModel = hiltViewModel(), onMoviePress: (Int) -> Unit) {
     val lazyMovies: LazyPagingItems<Movie> =
         viewModel.trendingMoviesPager.collectAsLazyPagingItems()
+
+    val error by viewModel.error.collectAsStateWithLifecycle()
+
+     fun onRetry() {
+        viewModel.setError(null)
+        lazyMovies.retry()
+
+    }
+
+
+    if (error != null) {
+        RetryButton(error = error!!, onClick = {onRetry() })
+    }
 
 
     Column {

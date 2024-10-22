@@ -38,10 +38,6 @@ import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
-    private val viewModel by viewModels<HomeViewModel>()
-    private val movieDetailsViewModel by viewModels<MovieDetailViewModel>()
-    private val starredMoviesViewModel by viewModels<StarredMoviesViewModel>()
-    private val trendingMoviesViewModel by viewModels<TrendingMoviesViewModel> ()
 
     // Define the routes
     @Serializable
@@ -132,26 +128,22 @@ class HomeActivity : AppCompatActivity() {
                         .padding(padding)
                 ) {
                     composable<Popular> {
-                        PopularMoviesScreen(viewModel, onMoviePress = ::navigateToMovieDetails)
+                        PopularMoviesScreen(onMoviePress = ::navigateToMovieDetails)
                     }
                     composable<MovieDetails> { backStackEntry ->
                         val details: MovieDetails = backStackEntry.toRoute()
                         MovieDetailsScreen(
-                            movieDetailsViewModel,
-                            starredMoviesViewModel,
-                            details.movieId,
+                            movieId = details.movieId,
                             onSimilarMoviePress = ::navigateToMovieDetails
                         )
                     }
                     composable<Starred> {
                         StarredMoviesScreen(
-                            starredMoviesViewModel,
                             onMoviePress = ::navigateToMovieDetails
                         )
                     }
                     composable<Trending> {
                         TrendingMoviesScreen(
-                            trendingMoviesViewModel,
                             onMoviePress = ::navigateToMovieDetails
                         )
                     }

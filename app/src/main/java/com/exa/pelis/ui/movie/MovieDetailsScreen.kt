@@ -1,5 +1,7 @@
 package com.exa.pelis.ui.movie
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,10 +22,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
@@ -41,8 +46,8 @@ import java.math.RoundingMode
 
 @Composable
 fun MovieDetailsScreen(
-    viewModel: MovieDetailViewModel,
-    starredMoviesViewModel: StarredMoviesViewModel,
+    viewModel: MovieDetailViewModel = hiltViewModel(),
+    starredMoviesViewModel: StarredMoviesViewModel = hiltViewModel(),
     movieId: Int,
     onSimilarMoviePress: (Int) -> Unit
 ) {
@@ -54,6 +59,8 @@ fun MovieDetailsScreen(
     val movieDetails = details
 
     val starredMovies by starredMoviesViewModel.starredMovies.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
 
     fun isStarred(): Boolean {
         return starredMovies.contains(movieId)
@@ -68,6 +75,27 @@ fun MovieDetailsScreen(
             starredMoviesViewModel.removeStarredMovie(movieId)
         } else {
             starredMoviesViewModel.saveStarredMovie(movieId)
+        }
+    }
+
+    fun shareMovie() {
+        if (movieDetails == null) {
+            return
+        }
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            //type = "text/plain"
+            putExtra(Intent.EXTRA_TITLE, movieDetails.movie.title)
+            putExtra(Intent.EXTRA_TEXT, movieDetails.movie.overview)
+            //putExtra(Intent.EXTRA_SUBJECT, movieDetails.movie.overview)
+            data = "https://image.tmdb.org/t/p/original/${movieDetails.movie.posterPath}".toUri()
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+        try {
+            context.startActivity(intent)
+
+        } catch (e: ActivityNotFoundException) {
+
         }
     }
 
@@ -92,6 +120,13 @@ fun MovieDetailsScreen(
     }
 
     Column(Modifier.verticalScroll(rememberScrollState())) {
+        Image(
+            painter = painterResource(id = R.drawable.share),
+            contentDescription = stringResource(id = R.string.share),
+            modifier = Modifier
+                .clickable { shareMovie() }
+                .size(40.dp)
+        )
         AsyncImage(
             model = "https://image.tmdb.org/t/p/original/${movieDetails.backdropPath}",
             contentDescription = movieDetails.movie.title,

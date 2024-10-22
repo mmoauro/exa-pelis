@@ -43,32 +43,32 @@ android {
 
 dependencies {
 
-    implementation (libs.core.ktx)
-    implementation (libs.appcompat)
-    implementation (libs.material)
-    implementation (libs.constraintlayout)
-    testImplementation (libs.junit)
-    androidTestImplementation (libs.ext.junit)
-    androidTestImplementation (libs.espresso.core)
-    implementation (libs.activity.ktx)
-    implementation (libs.hilt.android)
-    kapt (libs.hilt.compiler)
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-    implementation (libs.glide)
-    implementation (libs.paging.runtime)
+    implementation(libs.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.constraintlayout)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    implementation(libs.activity.ktx)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.glide)
+    implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
 
     // Material Design 3
-    implementation (libs.androidx.material3)
-    implementation (libs.material.compose)
+    implementation(libs.androidx.material3)
+    implementation(libs.material.compose)
 
-    implementation (libs.androidx.ui.tooling.preview)
-    debugImplementation (libs.androidx.ui.tooling)
-    implementation (libs.androidx.activity.compose)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.activity.compose)
 
     // Coil
     implementation(libs.coil.compose)
@@ -76,4 +76,5 @@ dependencies {
 
     implementation(libs.compose.navigation)
     implementation(libs.jetbrains.kotlin.serialization)
+    implementation(libs.hilt.compose)
 }

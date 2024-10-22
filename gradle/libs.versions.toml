@@ -9,6 +9,7 @@ core-ktx = "1.13.1"
 espresso-core = "3.6.1"
 glide = "4.16.0"
 hilt-android = "2.52"
+hilt-compose = "1.0.0-alpha03"
 junit = "4.13.2"
 junit-version = "1.2.1"
 material = "1.3.0"
@@ -41,17 +42,19 @@ paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pag
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
 
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-coil-compose = {group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil"}
-coil-network = {group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil"}
-compose-navigation = {module = "androidx.navigation:navigation-compose", version.ref = "navigation"}
-jetbrains-kotlin-serialization = {module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "serialization"}
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+jetbrains-kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "serialization" }
+
+hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-compose" }
 
 
 [plugins]
-android-application = {id = "com.android.application", version.ref = "agp"}
-android-library = {id = "com.android.library", version.ref = "agp"}
-hilt = {id = "com.google.dagger.hilt.android", version.ref = "hilt-android"}
-kapt = {id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin"}
-jetbrains-kotlin-android = {id = "org.jetbrains.kotlin.android", version.ref = "kotlin"}
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
+kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-jetbrains-kotlin-serialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
+jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
