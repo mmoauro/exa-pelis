@@ -55,7 +55,7 @@ fun PopularMoviesScreen(viewModel: HomeViewModel = hiltViewModel(), onMoviePress
     val isLoading = lazyMovies.loadState.refresh is LoadState.Loading
 
     var searchInputIsVisible by rememberSaveable { mutableStateOf(false) }
-    var searchInput by rememberSaveable() { mutableStateOf("") }
+    var searchInput by rememberSaveable { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
 
     fun onRetry() {
@@ -136,14 +136,14 @@ fun PopularMoviesScreen(viewModel: HomeViewModel = hiltViewModel(), onMoviePress
         }
 
         if (error != null) {
-            return RetryButton(error = error!!, onClick = {onRetry() })
+            return RetryButton(error = error!!, onClick = { onRetry() })
         }
 
         if (!searchInputIsVisible) {
             LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                 items(
                     count = lazyMovies.itemCount,
-                    key = lazyMovies.itemKey { movie -> "${movie.id}, ${movie.title}" }, // TODO: there are repeated keys
+                    key = lazyMovies.itemKey { movie -> "${movie.id}" },
                     contentType = lazyMovies.itemContentType { "Movies" }
                 ) { index ->
                     val movie = lazyMovies[index]

@@ -56,7 +56,6 @@ class MovieRemoteDataSource @Inject constructor(
                     emptyList(),
                     "",
                     0.0,
-                    context.resources.getString(R.string.no_internet_connection)
                 )
             } catch (e: UnknownHostException) {
                 MovieDetailsResponse(

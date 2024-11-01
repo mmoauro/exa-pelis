@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class StarredMoviesViewModel @Inject constructor(
     private val repository: MovieRepository,
-): ViewModel() {
+) : ViewModel() {
 
     private val _starredMovies = MutableStateFlow<Set<Int>>(setOf())
     val starredMovies get() = _starredMovies.asStateFlow()
@@ -28,7 +28,6 @@ class StarredMoviesViewModel @Inject constructor(
     val error get() = _error.asStateFlow()
 
 
-
     init {
         viewModelScope.launch {
             _starredMovies.value = repository.getStarredMovies()
@@ -40,7 +39,9 @@ class StarredMoviesViewModel @Inject constructor(
         viewModelScope.launch {
             repository.saveStarredMovie(movieId)
             _starredMovies.value = repository.getStarredMovies()
-            _starredMovieDetails.value = listOf(repository.getMovieDetails(movieId).toMovieDetails().movie) + _starredMovieDetails.value
+            _starredMovieDetails.value = listOf(
+                repository.getMovieDetails(movieId).toMovieDetails().movie
+            ) + _starredMovieDetails.value
         }
     }
 

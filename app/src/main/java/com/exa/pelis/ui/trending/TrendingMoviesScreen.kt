@@ -60,7 +60,7 @@ fun TrendingMoviesScreen(viewModel: TrendingMoviesViewModel = hiltViewModel(), o
         LazyVerticalGrid(columns = GridCells.Fixed(2)) {
             items(
                 count = lazyMovies.itemCount,
-                key = lazyMovies.itemKey { movie -> "${movie.id}, ${movie.title}" }, // TODO: there are repeated keys
+                key = lazyMovies.itemKey { movie -> "${movie.id}" },
                 contentType = lazyMovies.itemContentType { "Movies" }
             ) { index ->
                 val movie = lazyMovies[index]
