@@ -10,6 +10,6 @@ data class Movie (
     @SerializedName("overview")
     val overview: String,
     @SerializedName("poster_path")
-    val posterPath: String
+    val posterPath: String?
         ){
 }

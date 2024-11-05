@@ -2,6 +2,7 @@ package com.exa.pelis.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,6 +31,7 @@ fun MovieListItem(movie: Movie, onMoviePress: () -> Unit, modifier: Modifier = M
             contentScale = ContentScale.Fit,
             onSuccess = {imageIsLoading = false},
             placeholder = painterResource(R.drawable.loading_image),
+            error = painterResource(R.drawable.broken_image),
         )
         BodyText(text = movie.title, fontSize = 20.sp, modifier = Modifier.padding(top = 12.dp))
     }

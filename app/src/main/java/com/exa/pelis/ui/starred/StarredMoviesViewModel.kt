@@ -39,7 +39,7 @@ class StarredMoviesViewModel @Inject constructor(
         viewModelScope.launch {
             repository.saveStarredMovie(movieId)
             _starredMovies.value = repository.getStarredMovies()
-            _starredMovieDetails.value = listOf(
+            _starredMovieDetails.value = mutableListOf(
                 repository.getMovieDetails(movieId).toMovieDetails().movie
             ) + _starredMovieDetails.value
         }
@@ -63,6 +63,7 @@ class StarredMoviesViewModel @Inject constructor(
             _loadingDetails.value = true
             val movies = mutableListOf<Movie>()
             val ids = starredMovies.value
+            // It would be better to obtain the details all in only one call, but the API does not support it
             ids.forEach {
                 val movieDetails = repository.getMovieDetails(it)
                 _error.value = movieDetails.error

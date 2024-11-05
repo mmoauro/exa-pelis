@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -78,27 +79,6 @@ fun MovieDetailsScreen(
         }
     }
 
-    fun shareMovie() {
-        if (movieDetails == null) {
-            return
-        }
-        val intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            //type = "text/plain"
-            putExtra(Intent.EXTRA_TITLE, movieDetails.movie.title)
-            putExtra(Intent.EXTRA_TEXT, movieDetails.movie.overview)
-            //putExtra(Intent.EXTRA_SUBJECT, movieDetails.movie.overview)
-            data = "https://image.tmdb.org/t/p/original/${movieDetails.movie.posterPath}".toUri()
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }
-        try {
-            context.startActivity(intent)
-
-        } catch (e: ActivityNotFoundException) {
-
-        }
-    }
-
     if (error != null) {
         return Column(
             modifier = Modifier
@@ -120,17 +100,14 @@ fun MovieDetailsScreen(
     }
 
     Column(Modifier.verticalScroll(rememberScrollState())) {
-        Image(
-            painter = painterResource(id = R.drawable.share),
-            contentDescription = stringResource(id = R.string.share),
-            modifier = Modifier
-                .clickable { shareMovie() }
-                .size(40.dp)
-        )
         AsyncImage(
             model = "https://image.tmdb.org/t/p/original/${movieDetails.backdropPath}",
             contentDescription = movieDetails.movie.title,
             placeholder = painterResource(R.drawable.loading_image),
+            error = painterResource(R.drawable.broken_image),
+            modifier = Modifier
+                .fillMaxWidth(),
+            alignment = Alignment.Center
         )
         Column(modifier = Modifier.padding(8.dp)) {
             Row(
@@ -138,7 +115,7 @@ fun MovieDetailsScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Title(text = movieDetails.movie.title)
+                Title(text = movieDetails.movie.title, modifier = Modifier.width(350.dp))
                 Image(
                     painter = painterResource(id = if (isStarred()) R.drawable.starred_movie else R.drawable.unstarred_movie),
                     contentDescription = stringResource(id = if (isStarred()) R.string.remove_starred else R.string.save_starred),
